@@ -1,1 +1,1 @@
-git is very useful!
+git is a very useful app!
