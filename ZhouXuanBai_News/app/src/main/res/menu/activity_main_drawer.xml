@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_news"
+
+            android:title="@string/menu_news"
+            android:visible="true" />
+        <item
+            android:id="@+id/nav_login"
+
+            android:title="@string/menu_login" />
+        <item
+            android:id="@+id/nav_collection"
+
+            android:title="@string/menu_collection" />
+        <item
+            android:id="@+id/nav_shield"
+
+            android:title="@string/menu_shield" />
+    </group>
+
+    <item android:title="辅助功能">
+        <menu>
+            <item
+                android:id="@+id/nav_night"
+
+                android:title="@string/menu_night" />
+            <item
+                android:id="@+id/nav_send"
+
+                android:title="@string/menu_send" />
+            <!--                android:icon="@drawable/ic_menu_send"-->
+        </menu>
+    </item>
+
+</menu>
