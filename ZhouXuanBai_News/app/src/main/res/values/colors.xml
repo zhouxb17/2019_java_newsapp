@@ -7,4 +7,8 @@
     <color name="colorBlack">#000000</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBackground">#9dd3a8</color>
+    <color name="buttonClicked">#d9d9f3</color>
+    <color name="buttonUnClicked">#FFD6D7D7</color>
+    <color name="buttonEdit">#fa625f</color>
+    <color name="colorOrange">#e65100</color>
 </resources>

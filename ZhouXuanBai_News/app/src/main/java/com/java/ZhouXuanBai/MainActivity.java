@@ -1,15 +1,22 @@
 package com.java.ZhouXuanBai;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.view.ViewParent;
+import android.view.View.OnTouchListener;
 
 
 import androidx.annotation.IdRes;
@@ -34,6 +41,8 @@ import androidx.appcompat.widget.Toolbar;
 
 
 import android.view.Menu;
+import android.widget.Button;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
@@ -44,11 +53,14 @@ public class MainActivity extends AppCompatActivity {
 
     public Fragment currentFragment;
     private AppBarConfiguration mAppBarConfiguration;
+    private Context mContext;
+    boolean buttonlist[] = {true, true, true, true, true, false, false, false, false, false, false};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mContext = MainActivity.this;
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 //        View fragment = findViewById(R.id.nav_news);
@@ -74,97 +86,452 @@ public class MainActivity extends AppCompatActivity {
 //        mAppBarConfiguration.
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-    }
 
-//    @Override
-    public static void setupWithNavController(@NonNull final NavigationView navigationView,
-                                              @NonNull final NavController navController) {
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        boolean handled = onNavDestinationSelected(item, navController);
-                        int id = item.getItemId();
-
-                        if (handled) {
-                            ViewParent parent = navigationView.getParent();
-                            if (parent instanceof DrawerLayout) {
-                                ((DrawerLayout) parent).closeDrawer(navigationView);
-                            } else {
-                                BottomSheetBehavior bottomSheetBehavior =
-                                        findBottomSheetBehavior(navigationView);
-                                if (bottomSheetBehavior != null) {
-                                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-                                }
-                            }
-                        }
-                        return handled;
-                    }
-                });
-        final WeakReference<NavigationView> weakReference = new WeakReference<>(navigationView);
-        navController.addOnDestinationChangedListener(
-                new NavController.OnDestinationChangedListener() {
-                    @Override
-                    public void onDestinationChanged(@NonNull NavController controller,
-                                                     @NonNull NavDestination destination, @Nullable Bundle arguments) {
-                        NavigationView view = weakReference.get();
-                        if (view == null) {
-                            navController.removeOnDestinationChangedListener(this);
-                            return;
-                        }
-                        Menu menu = view.getMenu();
-                        for (int h = 0, size = menu.size(); h < size; h++) {
-                            MenuItem item = menu.getItem(h);
-                            matchDestination(destination, item.getItemId());
-                        }
-                    }
-                });
-    }
-
-    static BottomSheetBehavior findBottomSheetBehavior(@NonNull View view) {
-        ViewGroup.LayoutParams params = view.getLayoutParams();
-        if (!(params instanceof CoordinatorLayout.LayoutParams)) {
-            ViewParent parent = view.getParent();
-            if (parent instanceof View) {
-                return findBottomSheetBehavior((View) parent);
-            }
-            return null;
-        }
-        CoordinatorLayout.Behavior behavior = ((CoordinatorLayout.LayoutParams) params)
-                .getBehavior();
-        if (!(behavior instanceof BottomSheetBehavior)) {
-            // We hit a CoordinatorLayout, but the View doesn't have the BottomSheetBehavior
-            return null;
-        }
-        return (BottomSheetBehavior) behavior;
-    }
-
-    static boolean matchDestination(@NonNull NavDestination destination,
-                                    @IdRes int destId) {
-        NavDestination currentDestination = destination;
-        while (currentDestination.getId() != destId && currentDestination.getParent() != null) {
-            currentDestination = currentDestination.getParent();
-        }
-        return currentDestination.getId() == destId;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
-                || super.onSupportNavigateUp();
     }
 
     public void EditClicked(View view) {
-        Toast.makeText(this,"这是xml方式指定的Button响应",Toast.LENGTH_LONG).show();
+        // 一个自定义的布局，作为显示的内容
+        View contentView = LayoutInflater.from(mContext).inflate(
+                R.layout.pop_window, null);
+
+        final PopupWindow popupWindow = new PopupWindow(contentView,
+                LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, true);
+
+        popupWindow.setTouchable(true);
+
+        popupWindow.setTouchInterceptor(new OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                Log.i("mengdd", "onTouch : ");
+
+                return false;
+                // 这里如果返回true的话，touch事件将被拦截
+                // 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
+            }
+        });
+
+        // 如果不设置PopupWindow的背景，无论是点击外部区域还是Back键都无法dismiss弹框
+        // 我觉得这里是API的一个bug
+//        popupWindow.setBackgroundDrawable(getResources().getDrawable(
+//                R.drawable.));
+
+        // 设置按钮的点击事件
+        final Button button1 = (Button)contentView.findViewById(R.id.EditButton_娱乐);
+        final Button button2 = (Button)contentView.findViewById(R.id.EditButton_军事);
+        final Button button3 = (Button)contentView.findViewById(R.id.EditButton_教育);
+        final Button button4 = (Button)contentView.findViewById(R.id.EditButton_文化);
+        final Button button5 = (Button)contentView.findViewById(R.id.EditButton_健康);
+        final Button button6 = (Button)contentView.findViewById(R.id.EditButton_财经);
+        final Button button7 = (Button)contentView.findViewById(R.id.EditButton_体育);
+        final Button button8 = (Button)contentView.findViewById(R.id.EditButton_汽车);
+        final Button button9 = (Button)contentView.findViewById(R.id.EditButton_科技);
+        final Button button10 = (Button)contentView.findViewById(R.id.EditButton_社会);
+        if(buttonlist[1] == true)
+            button1.setBackgroundColor(getResources().getColor(R.color.buttonClicked));
+        else
+            button1.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+        if(buttonlist[2] == true)
+            button2.setBackgroundColor(getResources().getColor(R.color.buttonClicked));
+        else
+            button2.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+        if(buttonlist[3] == true)
+            button3.setBackgroundColor(getResources().getColor(R.color.buttonClicked));
+        else
+            button3.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+        if(buttonlist[4] == true)
+            button4.setBackgroundColor(getResources().getColor(R.color.buttonClicked));
+        else
+            button4.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+        if(buttonlist[5] == true)
+            button5.setBackgroundColor(getResources().getColor(R.color.buttonClicked));
+        else
+            button5.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+        if(buttonlist[6] == true)
+            button6.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+        else
+            button6.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+        if(buttonlist[7] == true)
+            button7.setBackgroundColor(getResources().getColor(R.color.buttonClicked));
+        else
+            button7.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+        if(buttonlist[8] == true)
+            button8.setBackgroundColor(getResources().getColor(R.color.buttonClicked));
+        else
+            button8.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+        if(buttonlist[9] == true)
+            button9.setBackgroundColor(getResources().getColor(R.color.buttonClicked));
+        else
+            button9.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+        if(buttonlist[10] == true)
+            button10.setBackgroundColor(getResources().getColor(R.color.buttonClicked));
+        else
+            button10.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (buttonlist[1] == true) {
+                    button1.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                    buttonlist[1] = false;
+                    reset();
+                } else {
+                    button1.setBackgroundColor(getResources().getColor(R.color.buttonClicked));
+                    buttonlist[1] = true;
+                    reset();
+                }
+            }
+        });
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (buttonlist[2] == true) {
+                    button2.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                    buttonlist[2] = false;
+                    reset();
+                } else {
+                    button2.setBackgroundColor(getResources().getColor(R.color.buttonClicked));
+                    buttonlist[2] = true;
+                    reset();
+                }
+            }
+        });
+        button3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (buttonlist[3] == true) {
+                    button3.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                    buttonlist[3] = false;
+                    reset();
+                } else {
+                    button3.setBackgroundColor(getResources().getColor(R.color.buttonClicked));
+                    buttonlist[3] = true;
+                    reset();
+                }
+            }
+        });
+        button4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (buttonlist[4] == true) {
+                    button4.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                    buttonlist[4] = false;
+                    reset();
+                } else {
+                    button4.setBackgroundColor(getResources().getColor(R.color.buttonClicked));
+                    buttonlist[4] = true;
+                    reset();
+                }
+            }
+        });
+        button5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (buttonlist[5] == true) {
+                    button5.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                    buttonlist[5] = false;
+                    reset();
+                } else {
+                    button5.setBackgroundColor(getResources().getColor(R.color.buttonClicked));
+                    buttonlist[5] = true;
+                    reset();
+                }
+            }
+        });
+        button6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (buttonlist[6] == true) {
+                    button6.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                    buttonlist[6] = false;
+                    reset();
+                } else {
+                    button6.setBackgroundColor(getResources().getColor(R.color.buttonClicked));
+                    buttonlist[6] = true;
+                    reset();
+                }
+            }
+        });
+        button7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (buttonlist[7] == true) {
+                    button7.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                    buttonlist[7] = false;
+                    reset();
+                } else {
+                    button7.setBackgroundColor(getResources().getColor(R.color.buttonClicked));
+                    buttonlist[7] = true;
+                    reset();
+                }
+            }
+        });
+        button8.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (buttonlist[8] == true) {
+                    button8.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                    buttonlist[8] = false;
+                    reset();
+                } else {
+                    button8.setBackgroundColor(getResources().getColor(R.color.buttonClicked));
+                    buttonlist[8] = true;
+                    reset();
+                }
+            }
+        });
+        button9.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (buttonlist[9] == true) {
+                    button9.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                    buttonlist[9] = false;
+                    reset();
+                } else {
+                    button9.setBackgroundColor(getResources().getColor(R.color.buttonClicked));
+                    buttonlist[9] = true;
+                    reset();
+                }
+            }
+        });
+        button10.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (buttonlist[10] == true) {
+                    button10.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                    buttonlist[10] = false;
+                    reset();
+                } else {
+                    button10.setBackgroundColor(getResources().getColor(R.color.buttonClicked));
+                    buttonlist[10] = true;
+                    reset();
+                }
+            }
+        });
+        // 设置好参数之后再show
+        popupWindow.showAsDropDown(view);
+
     }
+
+    public void reset()
+    {
+        final Button button1 = (Button)findViewById(R.id.button_娱乐);
+        final Button button2 = (Button)findViewById(R.id.button_军事);
+        final Button button3 = (Button)findViewById(R.id.button_教育);
+        final Button button4 = (Button)findViewById(R.id.button_文化);
+        final Button button5 = (Button)findViewById(R.id.button_健康);
+        final Button button6 = (Button)findViewById(R.id.button_财经);
+        final Button button7 = (Button)findViewById(R.id.button_体育);
+        final Button button8 = (Button)findViewById(R.id.button_汽车);
+        final Button button9 = (Button)findViewById(R.id.button_科技);
+        final Button button10 = (Button)findViewById(R.id.button_社会);
+        if(buttonlist[1] == true)
+                button1.setVisibility(View.VISIBLE);
+            else
+                button1.setVisibility(View.GONE);
+        if(buttonlist[2] == true)
+            button2.setVisibility(View.VISIBLE);
+        else
+            button2.setVisibility(View.GONE);
+        if(buttonlist[3] == true)
+            button3.setVisibility(View.VISIBLE);
+        else
+            button3.setVisibility(View.GONE);
+        if(buttonlist[4] == true)
+            button4.setVisibility(View.VISIBLE);
+        else
+            button4.setVisibility(View.GONE);
+        if(buttonlist[5] == true)
+            button5.setVisibility(View.VISIBLE);
+        else
+            button5.setVisibility(View.GONE);
+        if(buttonlist[6] == true)
+            button6.setVisibility(View.VISIBLE);
+        else
+            button6.setVisibility(View.GONE);
+        if(buttonlist[7] == true)
+            button7.setVisibility(View.VISIBLE);
+        else
+            button7.setVisibility(View.GONE);
+        if(buttonlist[8] == true)
+            button8.setVisibility(View.VISIBLE);
+        else
+            button8.setVisibility(View.GONE);
+        if(buttonlist[9] == true)
+            button9.setVisibility(View.VISIBLE);
+        else
+            button9.setVisibility(View.GONE);
+        if(buttonlist[10] == true)
+            button10.setVisibility(View.VISIBLE);
+        else
+            button10.setVisibility(View.GONE);
+    }
+
+    public void ClickCategory(View view) {
+        final Button button1 = (Button)findViewById(R.id.button_推荐);
+        final Button button2 = (Button)findViewById(R.id.button_体育);
+        final Button button3 = (Button)findViewById(R.id.button_健康);
+        final Button button4 = (Button)findViewById(R.id.button_军事);
+        final Button button5 = (Button)findViewById(R.id.button_娱乐);
+        final Button button6 = (Button)findViewById(R.id.button_教育);
+        final Button button7 = (Button)findViewById(R.id.button_文化);
+        final Button button8 = (Button)findViewById(R.id.button_汽车);
+        final Button button9 = (Button)findViewById(R.id.button_社会);
+        final Button button10 = (Button)findViewById(R.id.button_科技);
+        final Button button11 = (Button)findViewById(R.id.button_财经);
+        switch(view.getId())
+        {
+            case R.id.button_推荐:
+                button1.setBackgroundColor(getResources().getColor(R.color.buttonClicked));
+                button2.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button3.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button4.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button5.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button6.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button7.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button8.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button9.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button10.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button11.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                break;
+            case R.id.button_体育:
+                button1.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button2.setBackgroundColor(getResources().getColor(R.color.buttonClicked));
+                button3.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button4.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button5.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button6.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button7.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button8.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button9.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button10.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button11.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                break;
+            case R.id.button_健康:
+                button1.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button2.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button3.setBackgroundColor(getResources().getColor(R.color.buttonClicked));
+                button4.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button5.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button6.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button7.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button8.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button9.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button10.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button11.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                break;
+            case R.id.button_军事:
+                button1.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button2.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button3.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button4.setBackgroundColor(getResources().getColor(R.color.buttonClicked));
+                button5.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button6.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button7.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button8.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button9.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button10.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button11.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                break;
+            case R.id.button_娱乐:
+                button1.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button2.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button3.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button4.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button5.setBackgroundColor(getResources().getColor(R.color.buttonClicked));
+                button6.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button7.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button8.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button9.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button10.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button11.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                break;
+            case R.id.button_教育:
+                button1.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button2.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button3.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button4.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button5.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button6.setBackgroundColor(getResources().getColor(R.color.buttonClicked));
+                button7.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button8.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button9.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button10.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button11.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                break;
+            case R.id.button_文化:
+                button1.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button2.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button3.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button4.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button5.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button6.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button7.setBackgroundColor(getResources().getColor(R.color.buttonClicked));
+                button8.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button9.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button10.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button11.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                break;
+            case R.id.button_汽车:
+                button1.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button2.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button3.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button4.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button5.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button6.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button7.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button8.setBackgroundColor(getResources().getColor(R.color.buttonClicked));
+                button9.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button10.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button11.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                break;
+            case R.id.button_社会:
+                button1.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button2.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button3.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button4.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button5.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button6.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button7.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button8.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button9.setBackgroundColor(getResources().getColor(R.color.buttonClicked));
+                button10.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button11.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                break;
+            case R.id.button_科技:
+                button1.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button2.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button3.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button4.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button5.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button6.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button7.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button8.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button9.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button10.setBackgroundColor(getResources().getColor(R.color.buttonClicked));
+                button11.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                break;
+            case R.id.button_财经:
+                button1.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button2.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button3.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button4.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button5.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button6.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button7.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button8.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button9.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button10.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                button11.setBackgroundColor(getResources().getColor(R.color.buttonClicked));
+                break;
+        }
+    }
+
+
+    }
+
+
 
 //    @Override
 //    public boolean dispatchTouchEvent(MotionEvent ev) {
@@ -207,4 +574,4 @@ public class MainActivity extends AppCompatActivity {
 //        imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
 //    }
 
-}
+//}
