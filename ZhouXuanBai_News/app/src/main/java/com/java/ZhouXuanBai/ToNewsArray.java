@@ -20,6 +20,7 @@ public class ToNewsArray {
     public static String[] content;
     public static String[] url;
     public static String[] newsID;
+    public static String[] category;
     public static int size = 0;
     public static void toNewsArray(String s){
         JSONObject job;
@@ -40,6 +41,7 @@ public class ToNewsArray {
                 content[i] = jtemp.getString("content");
                 url[i] = jtemp.getString("url");
                 newsID[i] = jtemp.getString("newsID");
+                category[i] = jtemp.getString("category");
             }
         }catch(Exception e){
             e.printStackTrace();
@@ -51,7 +53,7 @@ public class ToNewsArray {
         try{
             for(int i=0;i<size;i++){
                 String text = "title: "+title[i]+"\npublishTime: "+publishTime[i]+"\ncontent: "+content[i]+"\nurl: "+url[i]+"\nnewsId: "+newsID[i];
-                out = openFileOutput(newsID[i]);
+                out = openFileOutput(category[i]+" "+newsID[i]);
                 writer = new BufferedWriter(new OutputStreamWriter(out));
                 writer.write(text);
             }
