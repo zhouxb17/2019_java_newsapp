@@ -7,37 +7,37 @@
 
     <fragment
         android:id="@+id/nav_news"
-        android:name="com.example.ZhouXuanBai.ui.News.NewsFragment"
+        android:name="com.java.ZhouXuanBai.ui.News.NewsFragment"
         android:label="@string/menu_news"
         tools:layout="@layout/fragment_news" />
 
     <fragment
         android:id="@+id/nav_login"
-        android:name="com.example.ZhouXuanBai.ui.login.LoginFragment"
+        android:name="com.java.ZhouXuanBai.ui.login.LoginFragment"
         android:label="@string/menu_login"
         tools:layout="@layout/fragment_login" />
 
     <fragment
         android:id="@+id/nav_collection"
-        android:name="com.example.ZhouXuanBai.ui.collection.CollectionFragment"
+        android:name="com.java.ZhouXuanBai.ui.collection.CollectionFragment"
         android:label="@string/menu_collection"
         tools:layout="@layout/fragment_collection" />
 
     <fragment
         android:id="@+id/nav_shield"
-        android:name="com.example.ZhouXuanBai.ui.shield.ShieldFragment"
+        android:name="com.java.ZhouXuanBai.ui.shield.ShieldFragment"
         android:label="@string/menu_shield"
         tools:layout="@layout/fragment_shield" />
 
     <fragment
         android:id="@+id/nav_night"
-        android:name="com.example.ZhouXuanBai.ui.night.NightFragment"
+        android:name="com.java.ZhouXuanBai.ui.night.NightFragment"
         android:label="@string/menu_night"
         tools:layout="@layout/fragment_night" />
 
     <fragment
         android:id="@+id/nav_send"
-        android:name="com.example.ZhouXuanBai.ui.send.SendFragment"
+        android:name="com.java.ZhouXuanBai.ui.send.SendFragment"
         android:label="@string/menu_send"
         tools:layout="@layout/fragment_send" />
 </navigation>
