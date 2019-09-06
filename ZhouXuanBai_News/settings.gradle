@@ -1,2 +1,5 @@
-include ':app'
+include ':app', ':refresh-header', ':refresh-footer', ':refresh-layout'
 rootProject.name='ZhouXuanBai_News'
+project(':refresh-header').projectDir = new File('SmartRefreshLayout-release/refresh-header')
+project(':refresh-footer').projectDir = new File('SmartRefreshLayout-release/refresh-footer')
+project(':refresh-layout').projectDir = new File('SmartRefreshLayout-release/refresh-layout')

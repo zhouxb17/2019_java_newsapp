@@ -32,6 +32,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
 import com.java.ZhouXuanBai.R;
+import com.java.ZhouXuanBai.ui.News.NewsFragment;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -41,30 +42,57 @@ import androidx.appcompat.widget.Toolbar;
 
 
 import android.view.Menu;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import static androidx.navigation.ui.NavigationUI.onNavDestinationSelected;
 
 public class MainActivity extends AppCompatActivity {
 
-    public Fragment currentFragment;
+//    public Fragment currentFragment;
     private AppBarConfiguration mAppBarConfiguration;
-    private Context mContext;
+    public ListView listview;
+    public String[] datas = {"张三","李四","王五","麻子","小强"};
+    public ArrayAdapter<String> arrayAdapter;
+    public static ArrayList<String> titleList = new ArrayList();
+    public static Context mContext;
+    LinearLayout layout;
     boolean buttonlist[] = {true, true, true, true, true, false, false, false, false, false, false};
+    NetConnection netConnection = new NetConnection();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mContext = MainActivity.this;
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-//        View fragment = findViewById(R.id.nav_news);
-//        String string = fragment.lab
+
+        ToNewsArray.toNewsArray( NetConnection.httpRequest("size=5"));
+        titleList = ToNewsArray.getInfo();
+
+//        titleList.add("新闻1");
+//        titleList.add("新闻2");
+//        titleList.add("新闻3");
+//        titleList.add("新闻4");
+//        titleList.add("新闻5");
+//        titleList.add("新闻6");
+ //       arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, datas);
+//        listview.setAdapter(arrayAdapter);
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,7 +115,16 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
+//        listview = NewsFragment.getListView();
+//        arrayAdapter = new ArrayAdapter<String>(this, R.layout.item_list , datas);
+//        listview.setAdapter(arrayAdapter);
     }
+    public static Context getContext()
+    {
+        return mContext;
+    }
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
