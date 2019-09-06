@@ -13,6 +13,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ToNewsArray {
     public static String[] publishTime;
@@ -37,7 +40,7 @@ public class ToNewsArray {
             for(int i=0;i<size;i++){
                 JSONObject jtemp = (JSONObject)jar.getJSONObject(i);
                 publishTime[i] = jtemp.getString("publishTime");
-                title[i] = jtemp.getString("titlle");
+                title[i] = jtemp.getString("title");
                 content[i] = jtemp.getString("content");
                 url[i] = jtemp.getString("url");
                 newsID[i] = jtemp.getString("newsID");
@@ -47,28 +50,11 @@ public class ToNewsArray {
             e.printStackTrace();
         }
     }
-    public static void saveInFile(){
-        FileOutputStream out = null;
-        BufferedWriter writer = null;
-        try{
-            for(int i=0;i<size;i++){
-                String text = "title: "+title[i]+"\npublishTime: "+publishTime[i]+"\ncontent: "+content[i]+"\nurl: "+url[i]+"\nnewsId: "+newsID[i];
-                out = openFileOutput(category[i]+" "+newsID[i]);
-                writer = new BufferedWriter(new OutputStreamWriter(out));
-                writer.write(text);
-            }
-        }catch(FileNotFoundException e) {
-            e.printStackTrace();
-        }catch(IOException e){
-            e.printStackTrace();
-        }finally{
-            if(writer!=null){
-                try{
-                    writer.close();
-                }catch(IOException e){
-                    e.printStackTrace();
-                }
-            }
-        }
+
+    public static ArrayList<String> getInfo() {
+        ArrayList<String> al = new ArrayList<String>();
+        for (int i = 0; i < size; i++)
+            al.add(title[i]);
+        return al;
     }
 }
