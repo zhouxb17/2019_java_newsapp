@@ -64,12 +64,11 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     public ListView listview;
     public String[] datas = {"张三","李四","王五","麻子","小强"};
-    public ArrayAdapter<String> arrayAdapter;
-    public static ArrayList<String> titleList = new ArrayList();
+    public MyAdapter myAdapter;
+    public static ArrayList<News> newsArrayList = new ArrayList();
     public static Context mContext;
     LinearLayout layout;
     boolean buttonlist[] = {true, true, true, true, true, false, false, false, false, false, false};
-    NetConnection netConnection = new NetConnection();
     ToNewsArray toNewsArray = new ToNewsArray();
 
 
@@ -85,19 +84,20 @@ public class MainActivity extends AppCompatActivity {
         StrictMode.ThreadPolicy policy=new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 //        System.out.println(NetConnection.httpRequest());
-        toNewsArray.toNewsArray( NetConnection.httpRequest());
-        titleList = toNewsArray.getInfo();
+//        toNewsArray.toNewsArray( NetConnection.httpRequest());
+//        titleList = toNewsArray.getInfo();
 //        System.out.println(1);
 //        Log.e("NetConnection",NetConnection.s);
 //        System.out.println(2);
-        titleList.add("新闻1");
-        titleList.add("新闻2");
-        titleList.add("新闻3");
-        titleList.add("新闻4");
-        titleList.add("新闻5");
-        titleList.add("新闻6");
+
  //       arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, datas);
 //        listview.setAdapter(arrayAdapter);
+
+        toNewsArray.toNewsArray(NetConnection.httpRequest());
+        newsArrayList = toNewsArray.getInfo();
+
+        News news = new News("2019","新闻1","","","","","新华社");
+        newsArrayList.add(news);
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -130,30 +130,30 @@ public class MainActivity extends AppCompatActivity {
         return mContext;
     }
 
-    public static void refresh()
-    {
-        ArrayList<String> tempList = new ArrayList<>();
-        for(int i = 0; i < 5; i++)
-        {
-            String a = "这是下拉刷新的新闻" + i;
-            tempList.add(a);
-
-            titleList.add(a);
-        }
-//        for(i in titleList)
+//    public static void refresh()
+//    {
+//        ArrayList<String> tempList = new ArrayList<>();
+//        for(int i = 0; i < 5; i++)
 //        {
-//            titleList.add(item);
+//            String a = "这是下拉刷新的新闻" + i;
+//            tempList.add(a);
+//
+//            titleList.add(a);
 //        }
-    }
-
-    public static void getMore()
-    {
-        for(int i = 0; i < 5; i++)
-        {
-            String a = "这是上拉增加的新闻" + i;
-            titleList.add(a);
-        }
-    }
+////        for(i in titleList)
+////        {
+////            titleList.add(item);
+////        }
+//    }
+//
+//    public static void getMore()
+//    {
+//        for(int i = 0; i < 5; i++)
+//        {
+//            String a = "这是上拉增加的新闻" + i;
+//            titleList.add(a);
+//        }
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -16,6 +17,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.java.ZhouXuanBai.MainActivity;
+import com.java.ZhouXuanBai.MyAdapter;
+import com.java.ZhouXuanBai.News;
 import com.java.ZhouXuanBai.R;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -28,8 +31,9 @@ public class NewsFragment extends Fragment {
 
     private NewsViewModel newsViewModel;
     public static ListView listview;
-    public ArrayAdapter<String> arrayAdapter;
-    public List<String> titleList = new ArrayList();
+    public MyAdapter myAdapter;
+    public ArrayList<News> newsArrayList = new ArrayList();
+    public View thisView;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -43,55 +47,55 @@ public class NewsFragment extends Fragment {
 //                textView.setText(s);
 //            }
 //        });
-        RefreshLayout refreshLayout = (RefreshLayout)root.findViewById(R.id.refreshLayout);
+        thisView = root;
+        RefreshLayout refreshLayout = (RefreshLayout) root.findViewById(R.id.refreshLayout);
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                MainActivity.refresh();
-                arrayAdapter.notifyDataSetChanged();
+                //MainActivity.refresh();
+                myAdapter.notifyDataSetChanged();
                 refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
             }
         });
         refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(RefreshLayout refreshlayout) {
-                MainActivity.getMore();
-                arrayAdapter.notifyDataSetChanged();
+                //MainActivity.getMore();
+                myAdapter.notifyDataSetChanged();
                 refreshlayout.finishLoadMore(2000/*,false*/);//传入false表示加载失败
             }
         });
         listview = root.findViewById(R.id.news_list);
         Context mContext = MainActivity.getContext();
-        arrayAdapter = new ArrayAdapter<String>(mContext, R.layout.item_list , MainActivity.titleList);
-        listview.setAdapter(arrayAdapter);
+        myAdapter = new MyAdapter(MainActivity.newsArrayList, mContext);
+        listview.setAdapter(myAdapter);
 
-//        listview.setOnScrollListener(new AbsListView.OnScrollListener() {
-//
-//            @Override
-//            public void onScrollStateChanged(AbsListView view, int scrollState) {
-//
-//            }
-//
-//            @Override
-//            public void onScroll(AbsListView view, int firstVisibleItem,
-//                                 int visibleItemCount, int totalItemCount) {
-//                if(firstVisibleItem + visibleItemCount == totalItemCount && !isUpdating){
-//                    if(totalItemCount<totalCount){ //防止最后一次取数据进入死循环。
-//                        Toast.makeText(ListViewActivity.this, "正在取第"+(++currentPage)+"的数据", Toast.LENGTH_LONG).show();
-//                        AsyncUpdateDatasTask asyncUpdateWeiBoDatasTask = new AsyncUpdateDatasTask();
-//                        asyncUpdateWeiBoDatasTask.execute();
-//                    }
-//                    System.out.println("begin update-------------");
-//                }
-//            }
-//        });
+    //    listview.setOnItemClickListener((ListView.OnItemClickListener) this);
+
+
+
+
+
 
         return root;
     }
 
+//    @Override
+//    public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+//        String location = "位置："+listview.getItemIdAtPosition(position);
+//        String l = "   内容，"+listview.getItemAtPosition(position);
+//        Context mContext = MainActivity.getContext();
+//        Toast.makeText(mContext, location+l, Toast.LENGTH_SHORT).show();
+//    }
 
-    public static ListView getListView()
-    {
+    public static ListView getListView() {
         return listview;
     }
+
+
+//    public void newsclicked(View view)
+//    {
+//
+//    }
+
 }
