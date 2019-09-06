@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout layout;
     boolean buttonlist[] = {true, true, true, true, true, false, false, false, false, false, false};
     NetConnection netConnection = new NetConnection();
-
+    ToNewsArray toNewsArray = new ToNewsArray();
 
 
     @Override
@@ -81,15 +81,17 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        ToNewsArray.toNewsArray( NetConnection.httpRequest("size=5"));
-        titleList = ToNewsArray.getInfo();
+//        toNewsArray.toNewsArray( NetConnection.httpRequest("size=5"));
+//        titleList = toNewsArray.getInfo();
+        System.out.println(1);
+        System.out.println(NetConnection.httpRequest("size=5"));
 
-//        titleList.add("新闻1");
-//        titleList.add("新闻2");
-//        titleList.add("新闻3");
-//        titleList.add("新闻4");
-//        titleList.add("新闻5");
-//        titleList.add("新闻6");
+        titleList.add("新闻1");
+        titleList.add("新闻2");
+        titleList.add("新闻3");
+        titleList.add("新闻4");
+        titleList.add("新闻5");
+        titleList.add("新闻6");
  //       arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, datas);
 //        listview.setAdapter(arrayAdapter);
 
@@ -124,6 +126,30 @@ public class MainActivity extends AppCompatActivity {
         return mContext;
     }
 
+    public static void refresh()
+    {
+        ArrayList<String> tempList = new ArrayList<>();
+        for(int i = 0; i < 5; i++)
+        {
+            String a = "这是下拉刷新的新闻" + i;
+            tempList.add(a);
+
+            titleList.add(a);
+        }
+//        for(i in titleList)
+//        {
+//            titleList.add(item);
+//        }
+    }
+
+    public static void getMore()
+    {
+        for(int i = 0; i < 5; i++)
+        {
+            String a = "这是上拉增加的新闻" + i;
+            titleList.add(a);
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

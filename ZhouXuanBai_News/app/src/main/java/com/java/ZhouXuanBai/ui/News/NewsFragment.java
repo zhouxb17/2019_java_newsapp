@@ -17,6 +17,9 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.java.ZhouXuanBai.MainActivity;
 import com.java.ZhouXuanBai.R;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +28,6 @@ public class NewsFragment extends Fragment {
 
     private NewsViewModel newsViewModel;
     public static ListView listview;
-    public String[] datas = {"张三","李四","王五","麻子","小强"};
     public ArrayAdapter<String> arrayAdapter;
     public List<String> titleList = new ArrayList();
 
@@ -41,6 +43,23 @@ public class NewsFragment extends Fragment {
 //                textView.setText(s);
 //            }
 //        });
+        RefreshLayout refreshLayout = (RefreshLayout)root.findViewById(R.id.refreshLayout);
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                MainActivity.refresh();
+                arrayAdapter.notifyDataSetChanged();
+                refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
+            }
+        });
+        refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(RefreshLayout refreshlayout) {
+                MainActivity.getMore();
+                arrayAdapter.notifyDataSetChanged();
+                refreshlayout.finishLoadMore(2000/*,false*/);//传入false表示加载失败
+            }
+        });
         listview = root.findViewById(R.id.news_list);
         Context mContext = MainActivity.getContext();
         arrayAdapter = new ArrayAdapter<String>(mContext, R.layout.item_list , MainActivity.titleList);
