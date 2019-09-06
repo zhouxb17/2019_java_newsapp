@@ -37,12 +37,10 @@ public class NetConnection {
             e.printStackTrace();
         }
         s = buffer.toString();
-        Log.e("debug", s);
         return s;
     }
     public static String httpRequest() {
         StringBuffer buffer = new StringBuffer();
-        System.out.println(3);
         try {
             URL url = new URL("https://api2.newsminer.net/svc/news/queryNewsList?size=15&startDate=2019-07-01&endDate=2019-07-03&words=特朗普&categories=科技");
             HttpURLConnection httpUrlConn = (HttpURLConnection) url.openConnection();

@@ -58,10 +58,20 @@ public class ToNewsArray {
         }
     }
 
-    public ArrayList<String> getInfo() {
-        ArrayList<String> al = new ArrayList<String>();
-        for (int i = 0; i < size; i++)
-            al.add(title[i]);
+    public ArrayList<News> getInfo() {
+        ArrayList<News> al = new ArrayList<News>();
+        for (int i = 0; i < size; i++){
+           News news = new News(publishTime[i],title[i],content[i],url[i],newsID[i],category[i],publisher[i]); ;
+           al.add(news);
+        }
         return al;
+    }
+
+    public String get_newsId(int i){
+        return newsID[i];
+    }
+
+    public  String get_category(int i){
+        return category[i];
     }
 }
