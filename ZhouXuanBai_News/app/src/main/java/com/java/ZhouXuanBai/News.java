@@ -1,6 +1,8 @@
 package com.java.ZhouXuanBai;
 
-public class News {
+import java.io.Serializable;
+
+public class News implements Serializable {
     public String publishTime;
     public String title;
     public String content;
@@ -9,7 +11,7 @@ public class News {
     public String category;
     public String publisher;
     News(String a,String b,String c,String d,String e,String f,String g){
-        publisher = a;
+        publishTime = a;
         title = b;
         content = c;
         url = d;
