@@ -8,6 +8,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -81,11 +82,14 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        toNewsArray.toNewsArray( NetConnection.httpRequest("size=5"));
-//        titleList = toNewsArray.getInfo();
-        System.out.println(1);
-        System.out.println(NetConnection.httpRequest("size=5"));
-
+        StrictMode.ThreadPolicy policy=new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+//        System.out.println(NetConnection.httpRequest());
+        toNewsArray.toNewsArray( NetConnection.httpRequest());
+        titleList = toNewsArray.getInfo();
+//        System.out.println(1);
+//        Log.e("NetConnection",NetConnection.s);
+//        System.out.println(2);
         titleList.add("新闻1");
         titleList.add("新闻2");
         titleList.add("新闻3");

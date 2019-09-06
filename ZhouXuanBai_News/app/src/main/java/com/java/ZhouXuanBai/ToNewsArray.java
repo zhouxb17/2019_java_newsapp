@@ -2,6 +2,8 @@ package com.java.ZhouXuanBai;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
+
 import org.json.*;
 
 import java.io.BufferedInputStream;
@@ -24,10 +26,12 @@ public class ToNewsArray {
     public String[] url;
     public String[] newsID;
     public String[] category;
+    public String[] publisher;
     public int size = 0;
     public void toNewsArray(String s){
         JSONObject job;
         JSONArray jar;
+        JSONArray jar1;
         try{
             job = new JSONObject(s);
             jar = job.getJSONArray("data");
@@ -37,6 +41,8 @@ public class ToNewsArray {
             content = new String[size];
             url = new String[size];
             newsID = new String[size];
+            category = new String[size];
+            publisher = new String[size];
             for(int i=0;i<size;i++){
                 JSONObject jtemp = (JSONObject)jar.getJSONObject(i);
                 publishTime[i] = jtemp.getString("publishTime");
@@ -45,6 +51,7 @@ public class ToNewsArray {
                 url[i] = jtemp.getString("url");
                 newsID[i] = jtemp.getString("newsID");
                 category[i] = jtemp.getString("category");
+                publisher[i] = jtemp.getString("publisher");
             }
         }catch(Exception e){
             e.printStackTrace();

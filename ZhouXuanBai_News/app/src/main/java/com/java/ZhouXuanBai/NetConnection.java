@@ -1,5 +1,6 @@
 package com.java.ZhouXuanBai;
 
+import android.util.Log;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -8,6 +9,8 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 public class NetConnection {
+    static  String s;
+
     public static String httpRequest(String params) {
         StringBuffer buffer = new StringBuffer();
         try {
@@ -33,10 +36,13 @@ public class NetConnection {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return buffer.toString();
+        s = buffer.toString();
+        Log.e("debug", s);
+        return s;
     }
     public static String httpRequest() {
         StringBuffer buffer = new StringBuffer();
+        System.out.println(3);
         try {
             URL url = new URL("https://api2.newsminer.net/svc/news/queryNewsList?size=15&startDate=2019-07-01&endDate=2019-07-03&words=特朗普&categories=科技");
             HttpURLConnection httpUrlConn = (HttpURLConnection) url.openConnection();
@@ -58,8 +64,10 @@ public class NetConnection {
             httpUrlConn.disconnect();
 
         } catch (Exception e) {
+            System.out.println(4);
             e.printStackTrace();
         }
-        return buffer.toString();
+        s = buffer.toString();
+        return s;
     }
 }
