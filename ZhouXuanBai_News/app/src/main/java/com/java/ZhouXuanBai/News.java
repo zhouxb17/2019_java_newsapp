@@ -1,6 +1,8 @@
 package com.java.ZhouXuanBai;
 
-public class News {
+import java.io.Serializable;
+
+public class News implements Serializable {
     public String publishTime;
     public String title;
     public String content;
