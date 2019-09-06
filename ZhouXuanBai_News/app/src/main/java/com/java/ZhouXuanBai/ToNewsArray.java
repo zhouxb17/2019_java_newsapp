@@ -18,14 +18,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ToNewsArray {
-    public static String[] publishTime;
-    public static String[] title;
-    public static String[] content;
-    public static String[] url;
-    public static String[] newsID;
-    public static String[] category;
-    public static int size = 0;
-    public static void toNewsArray(String s){
+    public String[] publishTime;
+    public String[] title;
+    public String[] content;
+    public String[] url;
+    public String[] newsID;
+    public String[] category;
+    public int size = 0;
+    public void toNewsArray(String s){
         JSONObject job;
         JSONArray jar;
         try{
@@ -51,7 +51,7 @@ public class ToNewsArray {
         }
     }
 
-    public static ArrayList<String> getInfo() {
+    public ArrayList<String> getInfo() {
         ArrayList<String> al = new ArrayList<String>();
         for (int i = 0; i < size; i++)
             al.add(title[i]);
