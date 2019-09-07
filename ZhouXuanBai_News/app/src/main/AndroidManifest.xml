@@ -21,6 +21,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name="com.java.ZhouXuanBai.show_news">
+        </activity>
     </application>
 
 </manifest>
