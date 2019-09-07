@@ -35,7 +35,7 @@ public class show_news extends AppCompatActivity {
         textView2 = findViewById(R.id.textView2);
         textView3 = findViewById(R.id.textView3);
         textView4 = findViewById(R.id.textView4);
-        
+
         Intent intent = getIntent();
         News news = (News) intent.getSerializableExtra("News");
         String filename = news.category+"_"+news.newsID+".txt";

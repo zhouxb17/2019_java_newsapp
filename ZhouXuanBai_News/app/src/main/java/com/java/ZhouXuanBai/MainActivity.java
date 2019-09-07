@@ -2,6 +2,7 @@ package com.java.ZhouXuanBai;
 
 import android.content.Context;
 import android.content.Intent;
+import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -39,10 +40,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
-//    public Fragment currentFragment;
     private AppBarConfiguration mAppBarConfiguration;
     public ListView listview;
     public String[] datas = {"张三","李四","王五","麻子","小强"};
@@ -51,8 +52,7 @@ public class MainActivity extends AppCompatActivity {
     public static Context mContext;
     LinearLayout layout;
     boolean buttonlist[] = {true, true, true, true, true, false, false, false, false, false, false};
-    ToNewsArray toNewsArray = new ToNewsArray();
-
+    public static ToNewsArray toNewsArray = new ToNewsArray();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,12 +124,48 @@ public class MainActivity extends AppCompatActivity {
 
     public static void refresh()
     {
-
+        News temp = newsArrayList.get(0);
+        String year = temp.publishTime.substring(0,5);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd mm:ss");
+        Date date = new Date(System.currentTimeMillis());
+        String sa = simpleDateFormat.format(date);
+        toNewsArray.toNewsArray(NetConnection.httpRequest("endDate="+year+sa.substring(0,5)+"&size="+15));
+        newsArrayList = toNewsArray.getInfo();
     }
 
     public static void getMore()
     {
-
+        News temp = newsArrayList.get(newsArrayList.size()-1);
+        String s = temp.publishTime;
+        System.out.println(s);
+        int year = Integer.parseInt(s.substring(0,4));
+        int month = Integer.parseInt(s.substring(5,7));
+        int day = Integer.parseInt(s.substring(8,10));
+        if(day!=1)
+            day--;
+        else if(month!=1){
+            month--;
+            day = 28;
+        }
+        else{
+            year--;
+            month = 12;
+            day = 31;
+        }
+        StringBuffer sb = new StringBuffer();
+        if(month<10&&day<10)
+            sb.append(year+"-0"+month+"-0"+day);
+        else if(month<10&&day>9)
+            sb.append(year+"-0"+month+"-"+day);
+        else if(day>9&&day<10)
+            sb.append(year+"-"+month+"-0"+day);
+        else
+            sb.append(year+"-"+month+"-"+day);
+        System.out.println(sb.toString());
+        toNewsArray.toNewsArray(NetConnection.httpRequest("endDate="+sb.toString()+"size="+10));
+        ArrayList<News> al = toNewsArray.getInfo();
+        for(News i : al)
+            newsArrayList.add(i);
     }
 
     @Override
