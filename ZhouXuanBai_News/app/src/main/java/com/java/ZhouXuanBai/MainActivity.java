@@ -1,6 +1,7 @@
 package com.java.ZhouXuanBai;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -91,10 +92,6 @@ public class MainActivity extends AppCompatActivity {
 //        mAppBarConfiguration.
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-
-//        listview = NewsFragment.getListView();
-//        arrayAdapter = new ArrayAdapter<String>(this, R.layout.item_list , datas);
-//        listview.setAdapter(arrayAdapter);
     }
     public static Context getContext()
     {
@@ -116,19 +113,13 @@ public class MainActivity extends AppCompatActivity {
         {
             if(i.title == view_title.getText())
             {
-                sendHistory(i);
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this,show_news.class);
+                intent.putExtra("News",i);
+                startActivity(intent);
                 break;
             }
         }
-    }
-
-    public void sendHistory(News send_news)
-    {
-        News news = send_news;
-        String string = "newsCategory:" + news.category + "newsTitle:" + news.title + "newsDate" + news.publishTime;
-        Toast.makeText(mContext,string,Toast.LENGTH_SHORT ).show();
-    //    Toast.makeText(mContext, "", Toast.LENGTH_SHORT).show();
-
     }
 
     public static void refresh()

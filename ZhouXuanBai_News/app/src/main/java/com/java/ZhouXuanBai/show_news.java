@@ -31,44 +31,46 @@ public class show_news extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_news);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         textView2 = findViewById(R.id.textView2);
-        textView2.setMovementMethod(ScrollingMovementMethod.getInstance());
         textView3 = findViewById(R.id.textView3);
-        textView3.setMovementMethod(ScrollingMovementMethod.getInstance());
         textView4 = findViewById(R.id.textView4);
-        textView4.setMovementMethod(ScrollingMovementMethod.getInstance());
-
+        
         Intent intent = getIntent();
         News news = (News) intent.getSerializableExtra("News");
         String filename = news.category+"_"+news.newsID+".txt";
-        this.WriteSysFile(show_news.this,filename);
+        this.WriteSysFile(show_news.this,news);
         this.ShowSomething(news);
-
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//
+//        FloatingActionButton fab = findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
     }
 
-    public void WriteSysFile(Context context,String filename){
-//        try{
-//            FileOutputStream fos = context.openFileOutput(filename,Context.MODE_APPEND);
-//            OutputStreamWriter osw = new OutputStreamWriter(fos,"UTF-8");
-//            osw.write("something");//把新闻的内容写入/data/data/包名/files
-//            osw.flush();
-//            fos.flush();
-//            osw.close();
-//            fos.close();
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
+    public void WriteSysFile(Context context,News news){
+        try{
+            String filename = news.category+" "+news.newsID+".txt";
+            System.out.println(filename);
+            FileOutputStream fos = context.openFileOutput(filename,Context.MODE_APPEND);
+            OutputStreamWriter osw = new OutputStreamWriter(fos,"UTF-8");
+            StringBuffer sb = new StringBuffer();
+            sb.append("title: "+news.title+"\n");
+            sb.append("publishTime: "+news.publishTime+"\n");
+            sb.append("publisher: "+news.publisher+"\n");
+            sb.append("content: "+news.content+"\n");
+            osw.write(sb.toString());//把新闻的内容写入/data/data/包名/files
+            osw.flush();
+            fos.flush();
+            osw.close();
+            fos.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public void ShowSomething(News news){
