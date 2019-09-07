@@ -19,4 +19,7 @@ public class News implements Serializable {
         category = f;
         publisher = g;
     }
+    public static News buildNews(String a,String b,String c,String d,String e,String f,String g){
+        return new News(a,b,c,d,e,f,g);
+    }
 }

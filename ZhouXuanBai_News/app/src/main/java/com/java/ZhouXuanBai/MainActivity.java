@@ -41,6 +41,11 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -51,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     public String[] datas = {"张三","李四","王五","麻子","小强"};
     public MyAdapter myAdapter;
     public static ArrayList<News> newsArrayList = new ArrayList();
+    public static ArrayList<News> HistoryList = new ArrayList();
     public static Context mContext;
     LinearLayout layout;
     boolean buttonlist[] = {true, true, true, true, true, false, false, false, false, false, false};
@@ -111,8 +117,18 @@ public class MainActivity extends AppCompatActivity {
  //       TextView view_publisher = view.findViewById(R.id.textView_Publisher);
   //      TextView view_date = view.findViewById(R.id.textView_Date);
         TextView view_title = view.findViewById(R.id.textView_Title);
-        for(News i : newsArrayList)
-        {
+        System.out.println(view_title.getText());
+        for(News i : newsArrayList){
+            if(i.title == view_title.getText())
+            {
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this,show_news.class);
+                intent.putExtra("News",i);
+                startActivity(intent);
+                break;
+            }
+        }
+        for(News i : HistoryList){
             if(i.title == view_title.getText())
             {
                 Intent intent = new Intent();
@@ -133,13 +149,13 @@ public class MainActivity extends AppCompatActivity {
         String sa = simpleDateFormat.format(date);
         toNewsArray.toNewsArray(NetConnection.httpRequest("endDate="+year+sa.substring(0,5)+"&size="+15+"&categories="+categories));
         newsArrayList = toNewsArray.getInfo();
+
     }
 
     public static void getMore()
     {
         News temp = newsArrayList.get(newsArrayList.size()-1);
         String s = temp.publishTime;
-        System.out.println(s);
         int year = Integer.parseInt(s.substring(0,4));
         int month = Integer.parseInt(s.substring(5,7));
         int day = Integer.parseInt(s.substring(8,10));
@@ -163,8 +179,10 @@ public class MainActivity extends AppCompatActivity {
             sb.append(year+"-"+month+"-0"+day);
         else
             sb.append(year+"-"+month+"-"+day);
+
         System.out.println(sb.toString());
         toNewsArray.toNewsArray(NetConnection.httpRequest("endDate="+sb.toString()+"&size="+10+"&categories="+categories));
+
         ArrayList<News> al = toNewsArray.getInfo();
         for(News i : al)
             newsArrayList.add(i);

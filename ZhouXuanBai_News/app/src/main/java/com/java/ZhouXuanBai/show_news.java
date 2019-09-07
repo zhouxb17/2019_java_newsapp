@@ -55,14 +55,17 @@ public class show_news extends AppCompatActivity {
     public void WriteSysFile(Context context,News news){
         try{
             String filename = news.category+" "+news.newsID+".txt";
-            System.out.println(filename);
-            FileOutputStream fos = context.openFileOutput(filename,Context.MODE_APPEND);
+            System.out.println("saveinfile:   "+filename);
+            FileOutputStream fos = context.openFileOutput(filename,Context.MODE_PRIVATE);
             OutputStreamWriter osw = new OutputStreamWriter(fos,"UTF-8");
             StringBuffer sb = new StringBuffer();
             sb.append("title: "+news.title+"\n");
             sb.append("publishTime: "+news.publishTime+"\n");
             sb.append("publisher: "+news.publisher+"\n");
             sb.append("content: "+news.content+"\n");
+            sb.append("url: "+news.url+"\n");
+            sb.append("category: "+news.category+"\n");
+            sb.append("newsID: "+news.newsID+"\n");
             osw.write(sb.toString());//把新闻的内容写入/data/data/包名/files
             osw.flush();
             fos.flush();

@@ -55,11 +55,7 @@ public class NewsFragment extends Fragment {
         refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
-                for(News i:MainActivity.newsArrayList)
-                    System.out.println("before: " + i.title);
                 MainActivity.refresh();
-                for(News i:MainActivity.newsArrayList)
-                    System.out.println("after: "+ i.title);
                 myAdapter.notifyDataSetChanged();
                 refreshlayout.finishRefresh(2000/*,false*/);//传入false表示刷新失败
             }
