@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
+        android:onClick="Collect_clicked"
         app:backgroundTint="@color/buttonColor"
         app:srcCompat="@drawable/share_48px" />
 

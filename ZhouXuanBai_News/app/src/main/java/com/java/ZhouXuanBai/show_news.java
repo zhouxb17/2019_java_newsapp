@@ -27,6 +27,7 @@ public class show_news extends AppCompatActivity {
     private TextView textView2;
     private TextView textView3;
     private TextView textView4;
+    public News news;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +81,29 @@ public class show_news extends AppCompatActivity {
         textView2.setText(news.title);
         textView3.setText(news.publisher+" "+news.publishTime);
         textView4.setText(news.content);
+    }
+
+    public void Collect_clicked(View view) {
+        collection(news);
+        FloatingActionButton fab = findViewById(R.id.fab);
+    }
+
+    public void collection(News news)
+    {
+        boolean flag = false;
+        for(News i : Collection_list) {
+            if (i == news) {
+                flag = true;
+                break;
+            }
+        }
+        if(flag == false)
+            collect(news);
+        else
+            discollect(news);
+
+
+
     }
 }
 
