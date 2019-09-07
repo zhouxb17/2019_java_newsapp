@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void newsclicked(View view)
     {
-        view.setBackgroundColor(getResources().getColor(R.color.buttonClicked));
+        view.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
 //        View newView = LayoutInflater.from(mContext).inflate(
 //                R.layout.item_list, null);
 //        LinearLayout layout = newView.findViewById(R.id.item_layout);
@@ -712,17 +712,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    boolean flag = false;
+    boolean searchlayout_flag = false;
 
     public void search_clicked(MenuItem item) {
         LinearLayout search_layout = NewsFragment.getLayout();
-        if(flag == true) {
+        if(searchlayout_flag == true) {
             search_layout.setVisibility(View.GONE);
-            flag = false;
+            searchlayout_flag = false;
         }
         else {
             search_layout.setVisibility(View.VISIBLE);
-            flag = true;
+            searchlayout_flag = true;
         }
     }
 
