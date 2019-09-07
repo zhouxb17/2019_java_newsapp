@@ -9,6 +9,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -34,6 +35,7 @@ public class NewsFragment extends Fragment {
     public MyAdapter myAdapter;
     public ArrayList<News> newsArrayList = new ArrayList();
     public View thisView;
+    public static LinearLayout search_layout;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -74,6 +76,7 @@ public class NewsFragment extends Fragment {
         myAdapter = new MyAdapter(MainActivity.newsArrayList, mContext);
         listview.setAdapter(myAdapter);
 
+        search_layout = root.findViewById(R.id.search_layout);
     //    listview.setOnItemClickListener((ListView.OnItemClickListener) this);
 
 
@@ -96,6 +99,9 @@ public class NewsFragment extends Fragment {
         return listview;
     }
 
+    public static LinearLayout getLayout(){
+        return search_layout;
+    }
 
 //    public void newsclicked(View view)
 //    {

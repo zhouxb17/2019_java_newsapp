@@ -12,11 +12,13 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/search_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
+            android:layout_height="match_parent"
+            android:layout_weight="6"
             android:background="#9dd3a8"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <ImageView
                 android:id="@+id/imageView7"
@@ -31,9 +33,11 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#FFFFFF"
+                android:editable="true"
                 android:foreground="#00FFFFFF"
                 android:gravity="center"
                 android:inputType="text"
+                android:onClick="search_text"
                 android:shadowColor="#00FFFFFF"
                 android:text="输入要搜索的内容"
                 android:textColorHighlight="#00BCD4"
@@ -61,7 +65,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="10dp"
-            android:layout_weight="6"
+            android:layout_weight="7"
             android:orientation="horizontal">
 
             <HorizontalScrollView

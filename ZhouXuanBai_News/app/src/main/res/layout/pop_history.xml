@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:background="@color/colorWhite"
+    android:divider="@drawable/spacer_medium"
+    android:orientation="vertical"
+    android:showDividers="middle">
+
+    <TextView
+        android:id="@+id/history_1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/history_2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/history_3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/history_4"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/history_5"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="TextView" />
+</LinearLayout>

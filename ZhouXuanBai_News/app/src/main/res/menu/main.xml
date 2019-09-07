@@ -9,8 +9,9 @@
         app:showAsAction="always" />
     <item
         android:id="@+id/action_collection"
-        android:icon="@android:drawable/star_big_on"
+        android:icon="@android:drawable/ic_search_category_default"
+        android:onClick="search_clicked"
         android:orderInCategory="100"
         android:title="@string/action_collection"
-        app:showAsAction="never" />
+        app:showAsAction="always" />
 </menu>

@@ -11,6 +11,7 @@ import com.google.android.material.snackbar.Snackbar;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -23,6 +24,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
+import com.java.ZhouXuanBai.ui.News.NewsFragment;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -105,9 +107,8 @@ public class MainActivity extends AppCompatActivity {
 //                R.layout.item_list, null);
 //        LinearLayout layout = newView.findViewById(R.id.item_layout);
 //        layout.setBackgroundColor(getResources().getColor(R.color.buttonClicked));
-        TextView view_publisher = view.findViewById(R.id.textView_Publisher);
-        view_publisher.setText("他改变了新闻");
-        TextView view_date = view.findViewById(R.id.textView_Date);
+ //       TextView view_publisher = view.findViewById(R.id.textView_Publisher);
+  //      TextView view_date = view.findViewById(R.id.textView_Date);
         TextView view_title = view.findViewById(R.id.textView_Title);
         for(News i : newsArrayList)
         {
@@ -621,8 +622,55 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    boolean flag = false;
 
+    public void search_clicked(MenuItem item) {
+        LinearLayout search_layout = NewsFragment.getLayout();
+        if(flag == true) {
+            search_layout.setVisibility(View.GONE);
+            flag = false;
+        }
+        else {
+            search_layout.setVisibility(View.VISIBLE);
+            flag = true;
+        }
     }
+
+    public void search_text(View view) {
+
+        View contentView = LayoutInflater.from(mContext).inflate(
+                R.layout.pop_history, null);
+
+        final PopupWindow popupWindow = new PopupWindow(contentView,
+                LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, true);
+
+        popupWindow.setTouchable(true);
+
+        popupWindow.setTouchInterceptor(new OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                Log.i("mengdd", "onTouch : ");
+
+                return false;
+                // 这里如果返回true的话，touch事件将被拦截
+                // 拦截后 PopupWindow的onTouchEvent不被调用，这样点击外部区域无法dismiss
+            }
+        });
+        // 设置好参数之后再show
+        popupWindow.showAsDropDown(view);
+    }
+
+
+
+
+
+
+
+
+
+}
 
 
 
