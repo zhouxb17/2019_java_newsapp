@@ -1,4 +1,4 @@
-package com.java.ZhouXuanBai.ui.collection;
+package com.java.ZhouXuanBai.ui.history;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -25,9 +25,9 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 
-public class CollectionFragment extends Fragment {
+public class HistoryFragment extends Fragment {
 
-    private CollectionViewModel collectionViewModel;
+    private HistoryViewModel historyViewModel;
     public static ListView listview;
     public MyAdapter myAdapter;
     public ArrayList<News> newsArrayList = new ArrayList();
@@ -35,9 +35,9 @@ public class CollectionFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        collectionViewModel =
-                ViewModelProviders.of(this).get(CollectionViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_collection, container, false);
+        historyViewModel =
+                ViewModelProviders.of(this).get(HistoryViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_history, container, false);
 
         thisView = root;
         RefreshLayout refreshLayout = (RefreshLayout) root.findViewById(R.id.refreshLayout);

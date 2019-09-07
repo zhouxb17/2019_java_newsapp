@@ -1,8 +1,5 @@
 //package com.java.ZhouXuanBai;
 //
-//import android.app.Activity;
-//import android.content.Context;
-//import android.content.Intent;
 //import android.os.Bundle;
 //
 //import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -18,15 +15,11 @@
 //
 //import java.io.BufferedReader;
 //import java.io.BufferedWriter;
-//import java.io.FileOutputStream;
 //import java.io.FileReader;
 //import java.io.IOException;
-//import java.io.OutputStreamWriter;
 //
 //public class show_news extends AppCompatActivity {
-//    private TextView textView2;
-//    private TextView textView3;
-//    private TextView textView4;
+//    private TextView textView10;
 //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState);
@@ -34,18 +27,8 @@
 //        Toolbar toolbar = findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 //
-//        textView2 = findViewById(R.id.textView2);
-//        textView2.setMovementMethod(ScrollingMovementMethod.getInstance());
-//        textView3 = findViewById(R.id.textView3);
-//        textView3.setMovementMethod(ScrollingMovementMethod.getInstance());
-//        textView4 = findViewById(R.id.textView4);
-//        textView4.setMovementMethod(ScrollingMovementMethod.getInstance());
-//
-//        //News news = (News) getIntent.getExtras();
-//        News news;
-//        String filename = news.category+"_"+news.newsID+".txt";
-//        this.WriteSysFile(show_news.this,filename);
-//        this.ShowSomething(news);
+//        textView10 = findViewById(R.id.textView10);
+//        textView10.setMovementMethod(ScrollingMovementMethod.getInstance());
 //
 //        FloatingActionButton fab = findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -56,26 +39,35 @@
 //            }
 //        });
 //    }
+//    private Handler mHandler = new Handler(){
+//        public void handleMessage(android.os.Message msg){
+//            textView10.setText((String)msg.obj);
+//        }
+//    };
 //
-//    public void WriteSysFile(Context context,String filename){
-//        try{
-//            FileOutputStream fos = context.openFileOutput(filename,Context.MODE_APPEND);
-//            OutputStreamWriter osw = new OutputStreamWriter(fos,"UTF-8");
-//            osw.write("something");//把新闻的内容写入/data/data/包名/files
-//            osw.flush();
-//            fos.flush();
-//            osw.close();
-//            fos.close();
-//        }catch (Exception e){
-//            e.printStackTrace();
+//    class DataThread extends Thread{
+//        @Override
+//        public void run() {
+//            while(true)
+//            {
+//                try{
+//                    BufferedReader in = new BufferedReader(new FileReader("/sdcard/log"));
+//                    String line;
+//                    StringBuilder sb = new StringBuilder();
+//                    while((line = in.readLine()) != null) {
+//                        sb.append(line+'\n');
+//                    }
+//                    mHandler.sendMessage(mHandler.obtainMessage(0, sb.toString()));
+//                    in.close();
+//                    Thread.sleep(2000);
+//                } catch(IOException e){
+//                    e.printStackTrace();
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
 //        }
 //    }
-//
-//    public void ShowSomething(News news){
-//        textView2.setText(news.title);
-//        textView3.setText(news.publisher+" "+news.publishTime);
-//        textView4.setText(news.content);
-//    }
 //}
-//
-//
+
+

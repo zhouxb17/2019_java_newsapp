@@ -1,39 +1,26 @@
 package com.java.ZhouXuanBai;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.view.ViewParent;
 import android.view.View.OnTouchListener;
 
 
-import androidx.annotation.IdRes;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
-import com.java.ZhouXuanBai.R;
-import com.java.ZhouXuanBai.ui.News.NewsFragment;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -43,20 +30,14 @@ import androidx.appcompat.widget.Toolbar;
 
 
 import android.view.Menu;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import static androidx.navigation.ui.NavigationUI.onNavDestinationSelected;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -83,21 +64,11 @@ public class MainActivity extends AppCompatActivity {
 
         StrictMode.ThreadPolicy policy=new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-//        System.out.println(NetConnection.httpRequest());
-//        toNewsArray.toNewsArray( NetConnection.httpRequest());
-//        titleList = toNewsArray.getInfo();
-//        System.out.println(1);
-//        Log.e("NetConnection",NetConnection.s);
-//        System.out.println(2);
 
- //       arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, datas);
-//        listview.setAdapter(arrayAdapter);
 
         toNewsArray.toNewsArray(NetConnection.httpRequest());
         newsArrayList = toNewsArray.getInfo();
 
-        News news = new News("2019","新闻1","","","","","新华社");
-        newsArrayList.add(news);
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_news, R.id.nav_login, R.id.nav_collection,
-                R.id.nav_shield, R.id.nav_night, R.id.nav_send)
+                R.id.nav_shield, R.id.nav_night, R.id.nav_history)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -130,30 +101,45 @@ public class MainActivity extends AppCompatActivity {
         return mContext;
     }
 
-//    public static void refresh()
-//    {
-//        ArrayList<String> tempList = new ArrayList<>();
-//        for(int i = 0; i < 5; i++)
-//        {
-//            String a = "这是下拉刷新的新闻" + i;
-//            tempList.add(a);
-//
-//            titleList.add(a);
-//        }
-////        for(i in titleList)
-////        {
-////            titleList.add(item);
-////        }
-//    }
-//
-//    public static void getMore()
-//    {
-//        for(int i = 0; i < 5; i++)
-//        {
-//            String a = "这是上拉增加的新闻" + i;
-//            titleList.add(a);
-//        }
-//    }
+    public void newsclicked(View view)
+    {
+        view.setBackgroundColor(getResources().getColor(R.color.buttonClicked));
+//        View newView = LayoutInflater.from(mContext).inflate(
+//                R.layout.item_list, null);
+//        LinearLayout layout = newView.findViewById(R.id.item_layout);
+//        layout.setBackgroundColor(getResources().getColor(R.color.buttonClicked));
+        TextView view_publisher = view.findViewById(R.id.textView_Publisher);
+        view_publisher.setText("他改变了新闻");
+        TextView view_date = view.findViewById(R.id.textView_Date);
+        TextView view_title = view.findViewById(R.id.textView_Title);
+        for(News i : newsArrayList)
+        {
+            if(i.title == view_title.getText())
+            {
+                sendHistory(i);
+                break;
+            }
+        }
+    }
+
+    public void sendHistory(News send_news)
+    {
+        News news = send_news;
+        String string = "newsCategory:" + news.category + "newsTitle:" + news.title + "newsDate" + news.publishTime;
+        Toast.makeText(mContext,string,Toast.LENGTH_SHORT ).show();
+    //    Toast.makeText(mContext, "", Toast.LENGTH_SHORT).show();
+
+    }
+
+    public static void refresh()
+    {
+
+    }
+
+    public static void getMore()
+    {
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

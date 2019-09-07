@@ -14,5 +14,5 @@
     <string name="menu_collection">收藏</string>
     <string name="menu_shield">屏蔽</string>
     <string name="menu_night">夜间模式</string>
-    <string name="menu_send">Send</string>
+    <string name="menu_history">浏览历史</string>
 </resources>
