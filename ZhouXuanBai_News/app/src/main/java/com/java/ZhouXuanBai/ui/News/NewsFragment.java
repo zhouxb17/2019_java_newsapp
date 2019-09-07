@@ -32,10 +32,11 @@ public class NewsFragment extends Fragment {
 
     private NewsViewModel newsViewModel;
     public static ListView listview;
-    public MyAdapter myAdapter;
+    public static MyAdapter myAdapter;
     public ArrayList<News> newsArrayList = new ArrayList();
     public View thisView;
     public static LinearLayout search_layout;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -83,7 +84,6 @@ public class NewsFragment extends Fragment {
 
 
 
-
         return root;
     }
 
@@ -101,6 +101,11 @@ public class NewsFragment extends Fragment {
 
     public static LinearLayout getLayout(){
         return search_layout;
+    }
+
+    public static void update()
+    {
+        myAdapter.notifyDataSetChanged();
     }
 
 //    public void newsclicked(View view)

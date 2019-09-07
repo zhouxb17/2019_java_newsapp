@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout layout;
     boolean buttonlist[] = {true, true, true, true, true, false, false, false, false, false, false};
     public static ToNewsArray toNewsArray = new ToNewsArray();
+    public static String categories;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd mm:ss");
         Date date = new Date(System.currentTimeMillis());
         String sa = simpleDateFormat.format(date);
-        toNewsArray.toNewsArray(NetConnection.httpRequest("endDate="+year+sa.substring(0,5)+"&size="+15));
+        toNewsArray.toNewsArray(NetConnection.httpRequest("endDate="+year+sa.substring(0,5)+"&size="+15+"&categories="+categories));
         newsArrayList = toNewsArray.getInfo();
     }
 
@@ -163,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
         else
             sb.append(year+"-"+month+"-"+day);
         System.out.println(sb.toString());
-        toNewsArray.toNewsArray(NetConnection.httpRequest("endDate="+sb.toString()+"size="+10));
+        toNewsArray.toNewsArray(NetConnection.httpRequest("endDate="+sb.toString()+"&size="+10+"&categories="+categories));
         ArrayList<News> al = toNewsArray.getInfo();
         for(News i : al)
             newsArrayList.add(i);
@@ -463,6 +464,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void ClickCategory(View view) {
+        String string;
+        ArrayList<News> tempList;
         final Button button1 = (Button)findViewById(R.id.button_推荐);
         final Button button2 = (Button)findViewById(R.id.button_体育);
         final Button button3 = (Button)findViewById(R.id.button_健康);
@@ -488,6 +491,13 @@ public class MainActivity extends AppCompatActivity {
                 button9.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
                 button10.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
                 button11.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                categories = "";
+                toNewsArray.toNewsArray(NetConnection.httpRequest());
+                newsArrayList.clear();
+                tempList = toNewsArray.getInfo();
+                for(News i : tempList)
+                    newsArrayList.add(i);
+                NewsFragment.update();
                 break;
             case R.id.button_体育:
                 button1.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
@@ -501,6 +511,14 @@ public class MainActivity extends AppCompatActivity {
                 button9.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
                 button10.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
                 button11.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                categories = "体育";
+                string = "categories=体育";
+                toNewsArray.toNewsArray(NetConnection.httpRequest(string));
+                newsArrayList.clear();
+                tempList = toNewsArray.getInfo();
+                for(News i : tempList)
+                    newsArrayList.add(i);
+                NewsFragment.update();
                 break;
             case R.id.button_健康:
                 button1.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
@@ -514,6 +532,14 @@ public class MainActivity extends AppCompatActivity {
                 button9.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
                 button10.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
                 button11.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                categories = "健康";
+                string = "categories=健康";
+                toNewsArray.toNewsArray(NetConnection.httpRequest(string));
+                newsArrayList.clear();
+                tempList = toNewsArray.getInfo();
+                for(News i : tempList)
+                    newsArrayList.add(i);
+                NewsFragment.update();
                 break;
             case R.id.button_军事:
                 button1.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
@@ -527,6 +553,14 @@ public class MainActivity extends AppCompatActivity {
                 button9.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
                 button10.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
                 button11.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                categories = "军事";
+                string = "categories=军事";
+                toNewsArray.toNewsArray(NetConnection.httpRequest(string));
+                newsArrayList.clear();
+                tempList = toNewsArray.getInfo();
+                for(News i : tempList)
+                    newsArrayList.add(i);
+                NewsFragment.update();
                 break;
             case R.id.button_娱乐:
                 button1.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
@@ -540,6 +574,14 @@ public class MainActivity extends AppCompatActivity {
                 button9.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
                 button10.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
                 button11.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                categories = "娱乐";
+                string = "categories=娱乐";
+                toNewsArray.toNewsArray(NetConnection.httpRequest(string));
+                newsArrayList.clear();
+                tempList = toNewsArray.getInfo();
+                for(News i : tempList)
+                    newsArrayList.add(i);
+                NewsFragment.update();
                 break;
             case R.id.button_教育:
                 button1.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
@@ -553,6 +595,14 @@ public class MainActivity extends AppCompatActivity {
                 button9.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
                 button10.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
                 button11.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                categories = "教育";
+                string = "categories=教育";
+                toNewsArray.toNewsArray(NetConnection.httpRequest(string));
+                newsArrayList.clear();
+                tempList = toNewsArray.getInfo();
+                for(News i : tempList)
+                    newsArrayList.add(i);
+                NewsFragment.update();
                 break;
             case R.id.button_文化:
                 button1.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
@@ -566,6 +616,14 @@ public class MainActivity extends AppCompatActivity {
                 button9.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
                 button10.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
                 button11.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                categories = "文化";
+                string = "categories=文化";
+                toNewsArray.toNewsArray(NetConnection.httpRequest(string));
+                newsArrayList.clear();
+                tempList = toNewsArray.getInfo();
+                for(News i : tempList)
+                    newsArrayList.add(i);
+                NewsFragment.update();
                 break;
             case R.id.button_汽车:
                 button1.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
@@ -579,6 +637,14 @@ public class MainActivity extends AppCompatActivity {
                 button9.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
                 button10.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
                 button11.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                categories = "汽车";
+                string = "categories=汽车";
+                toNewsArray.toNewsArray(NetConnection.httpRequest(string));
+                newsArrayList.clear();
+                tempList = toNewsArray.getInfo();
+                for(News i : tempList)
+                    newsArrayList.add(i);
+                NewsFragment.update();
                 break;
             case R.id.button_社会:
                 button1.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
@@ -592,6 +658,14 @@ public class MainActivity extends AppCompatActivity {
                 button9.setBackgroundColor(getResources().getColor(R.color.buttonClicked));
                 button10.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
                 button11.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                categories = "社会";
+                string = "categories=社会";
+                toNewsArray.toNewsArray(NetConnection.httpRequest(string));
+                newsArrayList.clear();
+                tempList = toNewsArray.getInfo();
+                for(News i : tempList)
+                    newsArrayList.add(i);
+                NewsFragment.update();
                 break;
             case R.id.button_科技:
                 button1.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
@@ -605,6 +679,14 @@ public class MainActivity extends AppCompatActivity {
                 button9.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
                 button10.setBackgroundColor(getResources().getColor(R.color.buttonClicked));
                 button11.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
+                categories = "科技";
+                string = "categories=科技";
+                toNewsArray.toNewsArray(NetConnection.httpRequest(string));
+                newsArrayList.clear();
+                tempList = toNewsArray.getInfo();
+                for(News i : tempList)
+                    newsArrayList.add(i);
+                NewsFragment.update();
                 break;
             case R.id.button_财经:
                 button1.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
@@ -618,6 +700,14 @@ public class MainActivity extends AppCompatActivity {
                 button9.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
                 button10.setBackgroundColor(getResources().getColor(R.color.buttonUnClicked));
                 button11.setBackgroundColor(getResources().getColor(R.color.buttonClicked));
+                categories = "财经";
+                string = "categories=财经";
+                toNewsArray.toNewsArray(NetConnection.httpRequest(string));
+                newsArrayList.clear();
+                tempList = toNewsArray.getInfo();
+                for(News i : tempList)
+                    newsArrayList.add(i);
+                NewsFragment.update();
                 break;
         }
     }

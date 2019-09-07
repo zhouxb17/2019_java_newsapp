@@ -23,7 +23,8 @@
         </activity>
 
         <activity
-            android:name="com.java.ZhouXuanBai.show_news">
+            android:name="com.java.ZhouXuanBai.show_news"
+            android:label="@string/app_name">
         </activity>
     </application>
 
